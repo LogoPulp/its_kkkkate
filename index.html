@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>its_kkkkate | Streamer Hub</title>
+
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <meta name="description" content="Официальный хаб стримерши its_kkkkate (Екатерина). Уютно, лампово и с любовью 💜">
+    <meta name="theme-color" content="#b19cd9">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://its-kkkkate.pages.dev/">
+    <meta property="og:title" content="its_kkkkate | Streamer Hub">
+    <meta property="og:description" content="Официальный хаб стримерши its_kkkkate. Уютно, лампово и с любовью 💜">
+    <meta property="og:image" content="https://its-kkkkate.pages.dev/assets/og-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="its_kkkkate | Streamer Hub">
+    <meta property="twitter:description" content="Заглядывай на огонек! 🌸">
+    <meta property="twitter:image" content="https://its-kkkkate.pages.dev/assets/og-preview.png">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://embed.twitch.tv/embed/v1.js" defer></script>
+</head>
+<body>
+
+
+    <div class="bg-watermark">ITSKKKKATE</div>
+    <div class="bg-cozy-overlay"></div>
+    <canvas id="particle-canvas"></canvas>
+    <div class="ambient-glow"></div>
+
+
+    <!-- ═══ COZY MUSIC PLAYER ═══ -->
+    <div id="cozy-player" class="cozy-player collapsed">
+        <div class="player-body">
+            <!-- Mini Player (collapsed) -->
+            <div class="player-mini" id="player-mini-toggle" title="Открыть плеер">
+                <div class="player-mini-disc"></div>
+                <div class="player-mini-ring"></div>
+            </div>
+
+            <!-- Expanded Player -->
+            <div class="player-expanded">
+                <button class="player-collapse-btn" id="player-collapse-btn" title="Свернуть">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+
+                <!-- Top: Vinyl + Info -->
+                <div class="player-top">
+                    <div class="vinyl-wrap">
+                        <div class="vinyl-disc"></div>
+                    </div>
+                    <div class="player-info">
+                        <div class="player-track-name" id="player-track-name">Cozy Vibes OST</div>
+                        <div class="player-artist" id="player-artist">its_kkkkate</div>
+                        <div class="player-now-playing">
+                            <div class="player-spectrum">
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                            </div>
+                            <span id="player-status-label">PAUSED</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="player-progress-wrap">
+                    <span class="player-time" id="player-time-current">0:00</span>
+                    <div class="player-progress-track" id="player-progress-track">
+                        <div class="player-progress-fill" id="player-progress-fill"></div>
+                    </div>
+                    <span class="player-time" id="player-time-total">0:00</span>
+                </div>
+
+                <!-- Controls -->
+                <div class="player-controls">
+                    <button class="player-ctrl-btn" id="player-prev-btn" title="Предыдущий">
+                        <i class="fas fa-backward-step"></i>
+                    </button>
+
+                    <button class="player-ctrl-btn play-pause" id="player-play-btn" title="Играть / Пауза">
+                        <i class="fas fa-play" id="player-play-icon"></i>
+                    </button>
+
+                    <button class="player-ctrl-btn" id="player-next-btn" title="Следующий">
+                        <i class="fas fa-forward-step"></i>
+                    </button>
+
+                    <div class="player-volume-wrap">
+                        <i class="player-volume-icon fas fa-volume-up" id="player-vol-icon"></i>
+                        <input type="range" class="player-volume-slider" id="player-volume" min="0" max="100" value="15">
+                    </div>
+
+                    <button class="player-ctrl-btn player-sfx-btn" id="player-sfx-btn" title="Звуки интерфейса">
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                    </button>
+
+                    <button class="player-ctrl-btn" id="player-playlist-btn" title="Плейлист">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+
+                <!-- Playlist -->
+                <div class="player-playlist-wrap" id="player-playlist-wrap">
+                    <div class="player-playlist" id="player-playlist">
+                        <!-- Filled dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div id="preloader">
+        <div class="preloader-bg-glow"></div>
+        <div class="preloader-content">
+            <div class="preloader-heart">
+                <i class="fas fa-heart"></i>
+            </div>
+            <div class="preloader-logo" id="pl-logo">
+                <span>I</span><span>T</span><span>S</span><span>K</span><span>K</span><span>K</span><span>K</span><span>A</span><span>T</span><span>E</span>
+            </div>
+            <div class="preloader-tagline" id="pl-tagline">COZY STREAMER HUB</div>
+            <div class="preloader-bar-wrap">
+                <div class="preloader-bar-track">
+                    <div class="preloader-bar-fill" id="preloader-bar"></div>
+                </div>
+                <span class="preloader-percent" id="preloader-percent">0%</span>
+            </div>
+            <div class="preloader-status" id="preloader-status">ГРУЗИМ УЮТ...</div>
+        </div>
+    </div>
+
+
+    <main class="main-container">
+
+
+        <header class="hero-header">
+
+
+            <div class="hero-avatar-wrap">
+                <div class="hero-avatar-glow"></div>
+                <div class="avatar-container">
+                    <img src="assets/avatar.png" alt="its_kkkkate" class="avatar-img">
+                </div>
+            </div>
+
+
+            <div class="hero-card">
+                <div class="hero-card-accent"></div>
+                <h1 class="premium-title">its_kkkkate</h1>
+                <p class="status-quote">«Заглянул на огонек? Оставайся, тут тепло!» 💜</p>
+
+                <div class="hero-divider"></div>
+
+                <div class="hero-badges">
+
+                    <span id="stream-status" class="hero-badge stream-check">
+                        <i class="fas fa-circle"></i>
+                        <span class="status-text">Тихий час</span>
+                    </span>
+                </div>
+            </div>
+
+        </header>
+
+
+        <div id="live-box" class="twitch-wrapper" style="display: none;">
+            <div class="live-indicator pulse">
+                <i class="fas fa-heart"></i> В ЭФИРЕ
+            </div>
+            <div id="twitch-embed"></div>
+            <div class="live-goal-bar">
+                <div class="goal-label">ЦЕЛЬ: НА ЗП СТРИМЕРУ :3</div>
+                <div class="goal-track">
+                    <div class="goal-fill" style="width: 4%;"></div>
+                </div>
+                <div class="goal-percent">4%</div>
+            </div>
+        </div>
+
+
+        <section class="content-card">
+            <h2 class="section-title">Где меня найти</h2>
+            <nav class="social-links">
+                <a href="https://www.twitch.tv/its_kkkkate" target="_blank" class="s-btn twitch">
+                    <i class="fab fa-twitch"></i> <span>Twitch</span>
+                </a>
+                <a href="https://t.me/kkkkatetwitch" target="_blank" class="s-btn telegram">
+                    <i class="fab fa-telegram"></i> <span>Telegram</span>
+                </a>
+                <a href="https://www.tiktok.com/@its_kkkkate" target="_blank" class="s-btn tiktok">
+                    <i class="fab fa-tiktok"></i> <span>TikTok</span>
+                </a>
+                <a href="#" class="s-btn discord coming-soon">
+                    <i class="fab fa-discord"></i> <span>Discord (Скоро)</span>
+                </a>
+            </nav>
+
+            <div class="share-site-card tilt-effect" onclick="copyToClipboard(window.location.href, this)" title="Нажми, чтобы скопировать ссылку">
+                <div class="share-card-bg"></div>
+                <div class="share-card-overlay"></div>
+                <div class="share-card-content">
+                    <div class="share-icon-wrap">
+                        <i class="fas fa-share-nodes"></i>
+                    </div>
+                    <div class="share-text">
+                        <strong>ПОДЕЛИТЬСЯ ХАБОМ</strong>
+                        <span>Отправить уют друзьям 💜</span>
+                    </div>
+                </div>
+                <div class="share-copy-badge">КОПИРОВАТЬ</div>
+            </div>
+        </section>
+
+
+        <section class="content-card">
+            <h2 class="section-title">Поддержать уют</h2>
+
+            <div class="alert-buttons">
+                <a href="#" target="_blank" class="donate-btn da">
+                    <div class="btn-icon"><i class="fas fa-heart"></i></div>
+                    <div class="btn-text">
+                        <strong>DonationAlerts</strong>
+                        <small>Покормить стримершу</small>
+                    </div>
+                </a>
+                <a href="#" target="_blank" class="donate-btn ma">
+                    <div class="btn-icon"><i class="fas fa-star"></i></div>
+                    <div class="btn-text">
+                        <strong>MemeAlerts</strong>
+                        <small>Мемный привет</small>
+                    </div>
+                </a>
+                <a href="#" target="_blank" class="donate-btn steam">
+                    <div class="btn-icon"><i class="fab fa-steam"></i></div>
+                    <div class="btn-text">
+                        <strong>Steam Trade</strong>
+                        <small>Подарить скинчик</small>
+                    </div>
+                </a>
+            </div>
+
+            <div class="support-split" style="display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 2rem; align-items: stretch;">
+                <div class="crypto-side" style="flex: 1 1 300px; display: flex; flex-direction: column; justify-content: flex-start;">
+                    <div class="crypto-donate-grid" style="margin-top: 0; width: 100%;">
+                <div class="crypto-card tilt-effect" data-address="bc1q6m2fzvzq9v7j4z8z9z9z9z9z9z9z9z9z9z9">
+                    <div class="crypto-icon"><i class="fab fa-bitcoin"></i></div>
+                    <div class="crypto-info">
+                        <strong>BTC</strong>
+                        <span>bc1q...z9z9</span>
+                    </div>
+                    <span class="copy-hint">КЛИКНИ, ЧТОБЫ СКОПИРОВАТЬ</span>
+                </div>
+                <div class="crypto-card tilt-effect" data-address="0x71C7656EC7ab88b098defB751B7401B5f6d8976F">
+                    <div class="crypto-icon"><i class="fab fa-ethereum"></i></div>
+                    <div class="crypto-info">
+                        <strong>ETH (ERC20)</strong>
+                        <span>0x71...976F</span>
+                    </div>
+                    <span class="copy-hint">КЛИКНИ, ЧТОБЫ СКОПИРОВАТЬ</span>
+                </div>
+                <div class="crypto-card tilt-effect" data-address="TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t">
+                    <div class="crypto-icon"><i class="fas fa-dollar-sign"></i></div>
+                    <div class="crypto-info">
+                        <strong>USDT (TRC20)</strong>
+                        <span>TR7N...Lj6t</span>
+                    </div>
+                    <span class="copy-hint">КЛИКНИ, ЧТОБЫ СКОПИРОВАТЬ</span>
+                </div>
+                </div>
+                
+                <div class="direct-support" style="flex: 1 1 300px; display: flex; align-items: flex-start; justify-content: center;">
+                    <div class="donors-center-panel" style="width: 100%; max-width: 400px; margin: 1.5rem auto 0; height: 100%; min-height: 250px;">
+                    <div class="donors-header">
+                        <span id="donors-title">ЛЮБИМЫЕ ЗРИТЕЛИ (ТОП)</span>
+                    </div>
+                    <div id="donors-list-container" class="donors-scroll-area">
+                        <div class="loader-wrap">
+                            <p class="loader-text">ЗАГРУЗКА СПИСКА...</p>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="content-card about-section">
+            <h2 class="section-title">Обо мне</h2>
+            <div class="about-container">
+                <div class="about-content">
+                    <div class="about-quote">
+                        <i class="fas fa-quote-left"></i>
+                        <p>Привет, я Катя - твоя любимая стримерша по CS2 и не только! ✨</p>
+                    </div>
+                    <div class="about-details">
+                        <p>На моем канале тебя ждет море общения, уюта и, конечно же, игрового фана. Я стараюсь заряжать каждого теплотой и хорошим настроением. 🌸</p>
+                        <p>Люблю CS2, приключения и просто душевные разговоры. Заходи, будем дружить! 💜</p>
+                    </div>
+                </div>
+                <div class="about-decoration">
+                    <div class="deco-blob"></div>
+                    <i class="fas fa-cat deco-icon"></i>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="content-card rules-section">
+            <h2 class="section-title">Правила домика</h2>
+            <div class="rules-grid">
+                <div class="rule-item">
+                    <div class="rule-icon"><i class="fas fa-heart"></i></div>
+                    <div class="rule-text">
+                        <strong>Будь вежливым</strong>
+                        <span>И добрым ко всем</span>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-icon"><i class="fas fa-star"></i></div>
+                    <div class="rule-text">
+                        <strong>Без грубости</strong>
+                        <span>Не обижай котиков</span>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-icon"><i class="fas fa-umbrella"></i></div>
+                    <div class="rule-text">
+                        <strong>Только позитив</strong>
+                        <span>Никакой политики</span>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-icon"><i class="fas fa-cat"></i></div>
+                    <div class="rule-text">
+                        <strong>Без провокаций</strong>
+                        <span>У нас тут уютно</span>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-icon"><i class="fas fa-cookie"></i></div>
+                    <div class="rule-text">
+                        <strong>Реклама - табу</strong>
+                        <span>Это совсем невкусно</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="content-card" style="margin-bottom: 2rem;">
+            <h2 class="section-title">Игровой уголок (Setup)</h2>
+            <ul class="specs-list cozy-grid">
+                <li><i class="fas fa-microchip"></i> <span class="spec-label">CPU:</span> <span class="spec-val">Ryzen 5 7600X</span></li>
+                <li><i class="fas fa-video"></i> <span class="spec-label">GPU:</span> <span class="spec-val highlight">RTX 4070 12GB</span></li>
+                <li><i class="fas fa-memory"></i> <span class="spec-label">RAM:</span> <span class="spec-val">32GB DDR5 6000MHz</span></li>
+                <li><i class="fas fa-keyboard"></i> <span class="spec-label">Board:</span> <span class="spec-val">ASUS ROG B650</span></li>
+                <li><i class="fas fa-mouse"></i> <span class="spec-label">Mouse:</span> <span class="spec-val">Logitech G Pro X Superlight</span></li>
+                <li><i class="fas fa-headphones"></i> <span class="spec-label">Audio:</span> <span class="spec-val">HyperX Cloud II</span></li>
+            </ul>
+        </section>
+
+
+        <section class="content-card no-margin">
+            <h2 class="section-title">Избранные клипы</h2>
+            <div id="games-container" class="games-grid">
+                <div class="loader-wrap">
+                    <p class="loader-text">ДОСТАЕМ ГИФКИ...</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="credits">
+            <span>Made with <i class="fas fa-heart heart-beat"></i> by</span>
+            <a href="https://t.me/torgasik" target="_blank" class="dev-link">
+                <span class="dev-nick">Torgovets</span>
+                <img src="assets/dev-icon.png" alt="Torgovets" class="dev-pic">
+            </a>
+        </div>
+    </footer>
+
+
+    <div id="toast-notification" class="toast">Скопировано! 💜</div>
+
+
+    <div id="game-gallery-modal" class="game-modal-overlay">
+        <div class="game-modal-content">
+            <div class="gm-header">
+                <span id="gm-game-title" class="gm-title">АРХИВ</span>
+                <button id="gm-close-btn" class="gm-close">&times;</button>
+            </div>
+            <div id="gm-clips-grid" class="gm-body"></div>
+        </div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
