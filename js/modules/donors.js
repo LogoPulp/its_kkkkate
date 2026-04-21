@@ -16,6 +16,9 @@ export async function initDonorsBackground() {
     const tabs = document.querySelectorAll('.d-tab');
     const titleEl = document.getElementById('donors-title');
     
+    // Также инициализируем подаренные игры
+    initGiftedGames();
+    
     if (!container) return;
 
     window.debugStreamEmpty = () => {
@@ -98,7 +101,7 @@ function processAndSortDonors(data) {
         };
     });
 
-    return processed.sort((a, b) => b.value - a.value);
+    return processed;
 }
 
 function renderDonorsList(container, list) {
@@ -155,4 +158,47 @@ function renderDonorsList(container, list) {
         
         container.style.opacity = 1;
     }, 200);
+}
+
+async function initGiftedGames() {
+    const container = document.getElementById('gifted-games-container');
+    if (!container) return;
+
+    try {
+        const response = await fetch('assets/gifted_games.json?t=' + Date.now());
+        if (response.ok) {
+            const games = await response.json();
+            renderGiftedGames(container, games);
+        } else {
+            throw new Error("File not found");
+        }
+    } catch (e) {
+        console.warn("[GiftedGames] JSON load failed.", e);
+        container.innerHTML = '<p style="color:#555; margin:10px; font-size:0.8rem;">Пока нет подарков</p>';
+    }
+}
+
+function renderGiftedGames(container, list) {
+    container.innerHTML = '';
+
+    if (!list || list.length === 0) {
+        container.innerHTML = '<p style="color:#555; margin:10px; font-size:0.8rem;">Список пуст</p>';
+        return;
+    }
+
+    list.forEach((entry, index) => {
+        const row = document.createElement('div');
+        row.className = 'donor-row';
+        row.style.animation = `slideInDown ${0.3 + (index * 0.05)}s ease-out`;
+
+        row.innerHTML = `
+            <div class="d-rank-badge" style="background: var(--accent); color: #000;"><i class="fas fa-gamepad"></i></div>
+            <div class="d-info">
+                <span class="d-name">${entry.name}</span>
+                <span class="d-amount">игра ${entry.game}</span>
+            </div>
+        `;
+
+        container.appendChild(row);
+    });
 }

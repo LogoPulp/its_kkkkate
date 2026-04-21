@@ -33,10 +33,19 @@
 <body>
 
 
-    <div class="bg-watermark">ITSKKKKATE</div>
+    <div class="bg-watermark">its_kkkkate</div>
     <div class="bg-cozy-overlay"></div>
     <canvas id="particle-canvas"></canvas>
     <div class="ambient-glow"></div>
+    
+    <div class="hud-controls">
+        <button id="hud-music-btn" class="hud-btn" title="Вкл/Выкл музыку">
+            <i class="fas fa-music"></i> <span class="hud-status">MUSIC: ON</span>
+        </button>
+        <button id="hud-sfx-btn" class="hud-btn" title="Вкл/Выкл звуки">
+            <i class="fas fa-volume-high"></i> <span class="hud-status">SFX: ON</span>
+        </button>
+    </div>
 
 
     <!-- ═══ COZY MUSIC PLAYER ═══ -->
@@ -153,7 +162,7 @@
         <header class="hero-header">
 
 
-            <div class="hero-avatar-wrap">
+            <div class="hero-avatar-wrap" onclick="playSfx('click'); spawnHeartAt(event.clientX, event.clientY)">
                 <div class="hero-avatar-glow"></div>
                 <div class="avatar-container">
                     <img src="assets/avatar.png" alt="its_kkkkate" class="avatar-img">
@@ -220,7 +229,7 @@
                         <i class="fas fa-share-nodes"></i>
                     </div>
                     <div class="share-text">
-                        <strong>ПОДЕЛИТЬСЯ ХАБОМ</strong>
+                        <strong>Поделиться хабом</strong>
                         <span>Отправить уют друзьям 💜</span>
                     </div>
                 </div>
@@ -232,8 +241,8 @@
         <section class="content-card">
             <h2 class="section-title">Поддержать уют</h2>
 
-            <div class="alert-buttons">
-                <a href="#" target="_blank" class="donate-btn da">
+            <div class="alert-buttons" style="margin-bottom: 3.5rem;">
+                <a href="https://www.donationalerts.com/r/its_kkkkate" target="_blank" class="donate-btn da">
                     <div class="btn-icon"><i class="fas fa-heart"></i></div>
                     <div class="btn-text">
                         <strong>DonationAlerts</strong>
@@ -257,7 +266,7 @@
             </div>
 
             <div class="support-split" style="display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 2rem; align-items: stretch;">
-                <div class="crypto-side" style="flex: 1 1 300px; display: flex; flex-direction: column; justify-content: flex-start;">
+                <div class="crypto-side" style="flex: 1 1 300px; display: flex; flex-direction: column; justify-content: flex-start; margin-bottom: 2.5rem;">
                     <div class="crypto-donate-grid" style="margin-top: 0; width: 100%;">
                 <div class="crypto-card tilt-effect" data-address="bc1q6m2fzvzq9v7j4z8z9z9z9z9z9z9z9z9z9z9">
                     <div class="crypto-icon"><i class="fab fa-bitcoin"></i></div>
@@ -285,16 +294,27 @@
                 </div>
                 </div>
                 
-                <div class="direct-support" style="flex: 1 1 300px; display: flex; align-items: flex-start; justify-content: center;">
-                    <div class="donors-center-panel" style="width: 100%; max-width: 400px; margin: 1.5rem auto 0; height: 100%; min-height: 250px;">
-                    <div class="donors-header">
-                        <span id="donors-title">ЛЮБИМЫЕ ЗРИТЕЛИ (ТОП)</span>
-                    </div>
-                    <div id="donors-list-container" class="donors-scroll-area">
-                        <div class="loader-wrap">
-                            <p class="loader-text">ЗАГРУЗКА СПИСКА...</p>
+                <div class="direct-support" style="flex: 1 1 350px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 1.5rem;">
+                    <div class="donors-center-panel" style="width: 100%; max-width: 400px; margin-top: 2rem;">
+                        <div class="donors-header">
+                            <span id="donors-title">Любимые зрители (Топ)</span>
+                        </div>
+                        <div id="donors-list-container" class="donors-scroll-area">
+                            <div class="loader-wrap">
+                                <p class="loader-text">ЗАГРУЗКА СПИСКА...</p>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="donors-center-panel gifted-games-panel" style="width: 100%; max-width: 400px; height: auto; min-height: 100px;">
+                        <div class="donors-header">
+                            <span>Подаренные игры</span>
+                        </div>
+                        <div id="gifted-games-container" class="donors-scroll-area" style="padding-bottom: 20px;">
+                            <div class="loader-wrap">
+                                <p class="loader-text">ЗАГРУЗКА ИГР...</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -367,12 +387,11 @@
         <section class="content-card" style="margin-bottom: 2rem;">
             <h2 class="section-title">Игровой уголок (Setup)</h2>
             <ul class="specs-list cozy-grid">
-                <li><i class="fas fa-microchip"></i> <span class="spec-label">CPU:</span> <span class="spec-val">Ryzen 5 7600X</span></li>
-                <li><i class="fas fa-video"></i> <span class="spec-label">GPU:</span> <span class="spec-val highlight">RTX 4070 12GB</span></li>
-                <li><i class="fas fa-memory"></i> <span class="spec-label">RAM:</span> <span class="spec-val">32GB DDR5 6000MHz</span></li>
-                <li><i class="fas fa-keyboard"></i> <span class="spec-label">Board:</span> <span class="spec-val">ASUS ROG B650</span></li>
-                <li><i class="fas fa-mouse"></i> <span class="spec-label">Mouse:</span> <span class="spec-val">Logitech G Pro X Superlight</span></li>
-                <li><i class="fas fa-headphones"></i> <span class="spec-label">Audio:</span> <span class="spec-val">HyperX Cloud II</span></li>
+                <li><i class="fas fa-microchip"></i> <span class="spec-label">CPU:</span> <span class="spec-val">Intel Core i7-12700H</span></li>
+                <li><i class="fas fa-video"></i> <span class="spec-label">GPU:</span> <span class="spec-val highlight">GeForce RTX 4050 (6GB)</span></li>
+                <li><i class="fas fa-memory"></i> <span class="spec-label">RAM:</span> <span class="spec-val">32GB</span></li>
+                <li><i class="fas fa-desktop"></i> <span class="spec-label">Res:</span> <span class="spec-val">1920x1080 (16:9)</span></li>
+                <li><i class="fas fa-cog"></i> <span class="spec-label">Settings:</span> <span class="spec-val">Middle</span></li>
             </ul>
         </section>
 
@@ -405,7 +424,7 @@
     <div id="game-gallery-modal" class="game-modal-overlay">
         <div class="game-modal-content">
             <div class="gm-header">
-                <span id="gm-game-title" class="gm-title">АРХИВ</span>
+                <span id="gm-game-title" class="gm-title">Архив клипов</span>
                 <button id="gm-close-btn" class="gm-close">&times;</button>
             </div>
             <div id="gm-clips-grid" class="gm-body"></div>

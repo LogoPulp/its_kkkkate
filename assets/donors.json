@@ -1,38 +1,58 @@
 {
   "all_time": [
     {
-      "name": "oliver",
-      "amount": "1 814,05 RUB",
+      "name": "Anonim",
+      "amount": "120$",
       "type": "gold"
     },
     {
-      "name": "Олаф",
-      "amount": "500 RUB",
+      "name": "ggns",
+      "amount": "30$",
       "type": "normal"
     },
     {
-      "name": "Fl1mon",
-      "amount": "450 RUB",
+      "name": "theoparnel",
+      "amount": "19.62$",
       "type": "normal"
     },
     {
-      "name": "Anon",
-      "amount": "42 RUB",
+      "name": "k4valeroff",
+      "amount": "8.38$",
+      "type": "normal"
+    },
+    {
+      "name": "kakiwkals",
+      "amount": "3.82$",
+      "type": "normal"
+    },
+    {
+      "name": "bezo337",
+      "amount": "1.95$",
+      "type": "normal"
+    },
+    {
+      "name": "t4honya",
+      "amount": "0.65$",
       "type": "normal"
     }
   ],
   "year": [
     {
-      "name": "Олаф",
-      "amount": "500 RUB",
+      "name": "Anonim",
+      "amount": "120$",
+      "type": "gold"
+    },
+    {
+      "name": "ggns",
+      "amount": "30$",
       "type": "normal"
     },
     {
-      "name": "Fl1mon",
-      "amount": "450 RUB",
+      "name": "theoparnel",
+      "amount": "19.62$",
       "type": "normal"
     }
   ],
-  "stream": [],
-  "month": []
+  "month": [],
+  "stream": []
 }

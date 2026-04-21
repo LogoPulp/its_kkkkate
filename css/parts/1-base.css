@@ -54,16 +54,17 @@ body {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(-10deg);
-    font-size: 18vw; 
-    font-weight: 950;
-    color: rgba(212, 165, 255, 0.012); 
+    transform: translate(-50%, -50%);
+    font-size: 15vw; 
+    font-weight: 700;
+    color: rgba(212, 165, 255, 0.015); 
     z-index: -2;
     user-select: none;
     pointer-events: none;
     white-space: nowrap;
-    letter-spacing: -0.08em;
-    filter: blur(2px);
+    letter-spacing: 0.1em;
+    filter: blur(5px);
+    text-transform: lowercase;
 }
 
 .bg-cozy-overlay {

@@ -680,7 +680,3 @@
     }
 }
 
-/* --- Hide old HUD controls (replaced by player) --- */
-.hud-controls {
-    display: none !important;
-}

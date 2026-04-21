@@ -1,4 +1,7 @@
 import { CONFIG } from './config.js'; 
+import { playSfx, bgMusic } from './utils.js'; 
+
+window.playSfx = playSfx;
 
 let donorDataList = [];
 let isDonorsLoaded = false;
@@ -16,6 +19,7 @@ export function setupUI() {
         setupStartupSound(); 
         initCozyParticles();
         setupCryptoCopy();
+        setupHudControls(); 
     } catch (err) {
         console.error("UI Init Error:", err);
     }
@@ -73,9 +77,54 @@ function runPreloaderSequence() {
     setTimeout(tick, 500);
 }
 
+function setupHudControls() {
+    const musicBtn = document.getElementById('hud-music-btn');
+    const sfxBtn   = document.getElementById('hud-sfx-btn');
+
+    const updateHud = () => {
+        if (musicBtn) {
+            const isPlaying = !bgMusic.paused;
+            musicBtn.classList.toggle('muted', !isPlaying);
+            musicBtn.querySelector('.hud-status').textContent = isPlaying ? 'MUSIC: ON' : 'MUSIC: OFF';
+        }
+        if (sfxBtn) {
+            const isMuted = localStorage.getItem('sfx_muted') === 'true';
+            sfxBtn.classList.toggle('muted', isMuted);
+            sfxBtn.querySelector('.hud-status').textContent = isMuted ? 'SFX: OFF' : 'SFX: ON';
+        }
+    };
+
+    if (musicBtn) {
+        musicBtn.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play().catch(()=>{});
+                localStorage.setItem('music_playing', 'true');
+            } else {
+                bgMusic.pause();
+                localStorage.setItem('music_playing', 'false');
+            }
+            updateHud();
+        });
+    }
+
+    if (sfxBtn) {
+        sfxBtn.addEventListener('click', () => {
+            const isMuted = localStorage.getItem('sfx_muted') === 'true';
+            localStorage.setItem('sfx_muted', !isMuted);
+            updateHud();
+        });
+    }
+
+    // Sync HUD with player state changes
+    bgMusic.addEventListener('play',  updateHud);
+    bgMusic.addEventListener('pause', updateHud);
+    
+    updateHud();
+}
+
 function setupStartupSound() {
     // Плейсхолдер для стартового звука (мягкий поп)
-    const audio = new Audio('assets/cute-start.mp3');
+    const audio = new Audio('assets/startup.mp3');
     audio.volume = 0.1; 
 
     const playPromise = audio.play();
@@ -192,7 +241,7 @@ function setupCryptoCopy() {
 }
 
 
-function spawnHeartAt(x, y) {
+window.spawnHeartAt = function(x, y) {
     const heart = document.createElement('div');
     heart.className = 'heart-animation';
     heart.innerHTML = ['💜', '🤍', '💖', '✨'][Math.floor(Math.random() * 4)];
